@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sujal Bajracharya — AI Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg:       '#07070d',
+            surface:  '#0f0f18',
+            's2':     '#16161f',
+            's3':     '#1c1c28',
+            accent:   '#7b9fff',
+            purple:   '#a78bfa',
+            green:    '#34d399',
+            amber:    '#fbbf24',
+            muted:    '#72728a',
+            subtle:   '#2e2e42',
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body:    ['"Inter"', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 2.2s cubic-bezier(0.4,0,0.6,1) infinite',
+            'float':      'float 5.5s ease-in-out infinite',
+            'shimmer':    'shimmer 4.5s linear infinite',
+            'spin-slow':  'spin 5s linear infinite',
+          },
+          keyframes: {
+            float:   { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-9px)' } },
+            shimmer: { '0%': { backgroundPosition: '-200% center' }, '100%': { backgroundPosition: '200% center' } },
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    body { background:#07070d; color:#eeeef5; font-family:'Inter',sans-serif; }
+    ::selection { background:rgba(123,159,255,0.25); }
+
+    /* shimmer gradient text */
+    .grad-text {
+      background: linear-gradient(100deg,#7b9fff,#a78bfa,#7b9fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4.5s linear infinite;
+    }
+
+    /* spinning conic border on photo */
+    .spin-border::before {
+      content:'';position:absolute;inset:-2px;border-radius:18px;
+      background:conic-gradient(from 0deg,#7b9fff,transparent 35%,#a78bfa 65%,transparent 80%,#7b9fff);
+      animation:spin 5s linear infinite;
+      z-index:0;
+    }
+    .spin-border::after {
+      content:'';position:absolute;inset:0;border-radius:16px;
+      background:#07070d;z-index:1;
+    }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .hero-stagger-1 { animation:fadeUp 0.65s ease both 0.08s; }
+    .hero-stagger-2 { animation:fadeUp 0.65s ease both 0.20s; }
+    .hero-stagger-3 { animation:fadeUp 0.65s ease both 0.32s; }
+    .hero-stagger-4 { animation:fadeUp 0.65s ease both 0.44s; }
+
+    /* scroll reveal */
+    .reveal { opacity:0; transform:translateY(16px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .rd1 { transition-delay:0.1s; } .rd2 { transition-delay:0.2s; }
+    .rd3 { transition-delay:0.3s; } .rd4 { transition-delay:0.4s; }
+
+    /* status pill colours */
+    .pill-published { background:rgba(123,159,255,0.1);color:#7b9fff;border:1px solid rgba(123,159,255,0.28); }
+    .pill-progress  { background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.25); }
+    .pill-ready     { background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2); }
+
+    /* top accent line on card */
+    .card-accent::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,#7b9fff,#a78bfa);border-radius:12px 12px 0 0;
+    }
+
+    /* nav underline hover */
+    .nav-link { position:relative; }
+    .nav-link::after { content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:#7b9fff;transition:width 0.2s; }
+    .nav-link:hover::after { width:100%; }
+
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+    }
+  </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+<!-- ──────────────────────── NAV ──────────────────────── -->
+<nav class="sticky top-0 z-50 border-b border-white/[0.07] bg-[#07070d]/90 backdrop-blur-xl">
+  <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+    <span class="font-display font-bold text-[15px] tracking-tight">Sujal Bajracharya</span>
+    <ul class="hidden sm:flex items-center gap-7 list-none">
+      <li><a href="#about"      class="nav-link text-[13px] font-medium text-muted hover:text-[#eeeef5] transition-colors">About</a></li>
+      <li><a href="#research"   class="nav-link text-[13px] font-medium text-muted hover:text-[#eeeef5] transition-colors">Research</a></li>
+      <li><a href="#projects"   class="nav-link text-[13px] font-medium text-muted hover:text-[#eeeef5] transition-colors">Projects</a></li>
+      <li><a href="#leadership" class="nav-link text-[13px] font-medium text-muted hover:text-[#eeeef5] transition-colors">Leadership</a></li>
+      <li><a href="mailto:sujalbajracharya1@gmail.com" class="nav-link text-[13px] font-medium text-muted hover:text-[#eeeef5] transition-colors">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="max-w-5xl mx-auto px-6">
+
+<!-- ──────────────────────── HERO ──────────────────────── -->
+<section id="hero" class="py-24 border-b border-white/[0.07]">
+  <div class="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-14 items-center">
+
+    <div>
+      <!-- eyebrow -->
+      <div class="hero-stagger-1 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-widest text-accent border border-accent/30 bg-accent/10 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-green animate-pulse-slow"></span>
+        Available for internships &amp; research roles
+      </div>
+
+      <!-- headline -->
+      <h1 class="hero-stagger-2 font-display font-bold text-[clamp(2.1rem,4vw,3rem)] leading-[1.1] tracking-tight mb-5">
+        Building intelligent systems<br/>that <span class="grad-text">reason</span><br/>over structured data.
+      </h1>
+
+      <p class="hero-stagger-3 text-[15px] text-muted leading-[1.85] max-w-[480px] mb-8">
+        AI engineer with a 4.0 GPA at Kathmandu University. My work lives at the intersection of graph neural networks, dynamic knowledge graphs, and low-resource NLP — with a focus on languages and communities that existing systems ignore.
+      </p>
+
+      <div class="hero-stagger-4 flex flex-wrap gap-2.5 mb-10">
+        <a href="https://github.com/sujalbajra" target="_blank"
+           class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-[13px] font-semibold bg-accent text-bg hover:bg-[#96b3ff] transition-all hover:-translate-y-px">
+          GitHub Profile
+        </a>
+        <a href="mailto:sujalbajracharya1@gmail.com"
+           class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-[13px] font-semibold border border-white/[0.13] text-muted hover:border-accent/30 hover:text-[#eeeef5] transition-all hover:-translate-y-px">
+          Email me
+        </a>
+        <a href="https://www.nepjol.info/index.php/jonc/article/view/89049" target="_blank"
+           class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-[13px] font-semibold border border-white/[0.13] text-muted hover:border-accent/30 hover:text-[#eeeef5] transition-all hover:-translate-y-px">
+          Published Paper ↗
+        </a>
+      </div>
+
+      <!-- stats -->
+      <div class="grid grid-cols-4 gap-6 pt-6 border-t border-white/[0.07]">
+        <div><div class="font-display font-bold text-2xl tracking-tight">4.0</div><div class="text-[11px] text-muted uppercase tracking-wider mt-0.5">Cumulative GPA</div></div>
+        <div><div class="font-display font-bold text-2xl tracking-tight">1</div><div class="text-[11px] text-muted uppercase tracking-wider mt-0.5">Published Paper</div></div>
+        <div><div class="font-display font-bold text-2xl tracking-tight">3</div><div class="text-[11px] text-muted uppercase tracking-wider mt-0.5">Papers in Progress</div></div>
+        <div><div class="font-display font-bold text-2xl tracking-tight">8+</div><div class="text-[11px] text-muted uppercase tracking-wider mt-0.5">Projects Shipped</div></div>
+      </div>
+    </div>
+
+    <!-- photo -->
+    <div class="flex justify-center md:justify-end">
+      <div class="spin-border relative w-[220px] aspect-[3/4] rounded-[18px]">
+        <div class="relative z-10 w-full h-full rounded-[16px] bg-surface border border-white/[0.13] overflow-hidden flex flex-col items-center justify-center gap-3 animate-[float_5.5s_ease-in-out_infinite]">
+          <img src="photo.jpg" alt="Sujal Bajracharya" class="w-full h-full object-cover object-top" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ──────────────────────── ABOUT ──────────────────────── -->
+<section id="about" class="py-20 border-b border-white/[0.07]">
+  <p class="reveal text-[11px] font-semibold uppercase tracking-[0.14em] text-accent mb-2">Background</p>
+  <h2 class="reveal rd1 font-display font-bold text-[1.65rem] tracking-tight mb-10">About</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
+    <div class="reveal rd1 text-[15px] text-muted leading-[1.9] space-y-4">
+      <p>I am a final-year B.Tech Artificial Intelligence student at Kathmandu University, graduating in 2027, with a cumulative GPA of 4.0. My research centres on <strong class="text-[#eeeef5] font-medium">temporal graph learning</strong> and <strong class="text-[#eeeef5] font-medium">low-resource NLP</strong> — specifically, detecting and predicting emerging research communities in large-scale dynamic scholarly graphs.</p>
+      <p>I am also drawn to the problem of building language technology for underrepresented languages. Two of my ongoing papers directly address this: one creates the first standardised IR benchmark for Nepal Bhasa, and another builds the first community-sourced character dataset for seven ancient Nepali scripts.</p>
+      <p>Outside research, I lead student teams as RnD Lead of KU AI Club and coordinate cloud infrastructure workshops as an Executive Member of the AWS Student Builder Group at KU.</p>
+    </div>
+
+    <div class="reveal rd2 space-y-5">
+      <div>
+        <p class="text-[11px] font-semibold text-muted uppercase tracking-[0.08em] mb-2.5">Core ML</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-accent border-accent/30 bg-accent/10">Graph Neural Networks</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-accent border-accent/30 bg-accent/10">Temporal Graph Networks</span>
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-accent border-accent/30 bg-accent/10">LLM Fine-tuning</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-accent border-accent/30 bg-accent/10">Contrastive Learning</span>
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-accent border-accent/30 bg-accent/10">Few-shot Learning</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-accent border-accent/30 bg-accent/10">Generative AI / Diffusion</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[11px] font-semibold text-muted uppercase tracking-[0.08em] mb-2.5">Frameworks</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">PyTorch</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">PyTorch Geometric</span>
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Hugging Face</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">FastAPI</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Polars / Dask</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[11px] font-semibold text-muted uppercase tracking-[0.08em] mb-2.5">Languages &amp; Infrastructure</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Python</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">C / C++</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Julia</span>
+          <span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Bash</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Docker</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">AWS S3 / EC2</span><span class="text-[12px] font-medium px-2.5 py-1 rounded-md border text-muted border-white/[0.13] bg-surface transition-colors hover:text-[#eeeef5] hover:border-accent/30 cursor-default">Linux / WSL2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────── RESEARCH ──────────────────────── -->
+<section id="research" class="py-20 border-b border-white/[0.07]">
+  <p class="reveal text-[11px] font-semibold uppercase tracking-[0.14em] text-accent mb-2">Publications &amp; Ongoing Work</p>
+  <h2 class="reveal rd1 font-display font-bold text-[1.65rem] tracking-tight mb-3">Research</h2>
+  <p class="reveal rd2 text-[14px] text-muted mb-10 max-w-xl">Each paper is also a live engineering project — links go to the paper where available, and to the GitHub repository otherwise.</p>
+
+  <!-- ── ROW 1: PUBLISHED ── -->
+  <div class="reveal rd2 mb-3">
+    <p class="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted mb-4 flex items-center gap-2">
+      <span class="w-4 h-px bg-white/20 inline-block"></span> Published
+    </p>
+  </div>
+
+  <div class="reveal rd3 grid grid-cols-1 mb-10">
+    <!-- Published card — wider single row -->
+    <div class="card-accent relative bg-surface border border-white/[0.07] rounded-xl p-6 hover:border-accent/30 hover:-translate-y-0.5 transition-all duration-200">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+        <div class="flex-1">
+          <h3 class="font-display font-semibold text-[17px] text-[#eeeef5] leading-snug mb-1">AI-Powered Stock Forecasting: A Graph-Based Approach for NEPSE</h3>
+          <p class="text-[12px] text-muted">Journal of NICS · NepJOL · 2025</p>
+        </div>
+        <span class="self-start flex-shrink-0 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded pill-published">Published</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_220px] gap-6">
+        <p class="text-[13.5px] text-muted leading-[1.75]">
+          Developed a visibility-based graph transformation technique that converts financial time-series into structured networks capturing long-memory dependencies. Benchmarked GCN and GAT against standard baselines for price-movement prediction on NEPSE. GCN demonstrated superior robustness in modelling complex financial relationships, outperforming both GAT and non-graph methods across all evaluation metrics.
+        </p>
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted mb-2.5">Key techniques</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-[11px] px-2 py-0.5 rounded bg-s3 border border-white/[0.13] text-muted">Visibility Graph Transform</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-s3 border border-white/[0.13] text-muted">GCN</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-s3 border border-white/[0.13] text-muted">GAT</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-s3 border border-white/[0.13] text-muted">NEPSE</span>
+          </div>
+          <div class="flex gap-2">
+            <a href="https://www.nepjol.info/index.php/jonc/article/view/89049" target="_blank"
+               class="text-[12px] font-semibold text-accent px-3 py-1.5 rounded-md border border-accent/30 bg-accent/10 hover:bg-accent/20 transition-colors">Paper ↗</a>
+            <a href="https://github.com/sujalbajra/Exploring-Graph-Methods-for-Stock-Forecasting" target="_blank"
+               class="text-[12px] font-semibold text-accent px-3 py-1.5 rounded-md border border-accent/30 bg-accent/10 hover:bg-accent/20 transition-colors">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ROW 2: IN PROGRESS ── -->
+  <div class="reveal rd2 mb-4">
+    <p class="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted flex items-center gap-2">
+      <span class="w-4 h-px bg-white/20 inline-block"></span> In Progress
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <!-- EmerG-Net -->
+    <div class="reveal rd2 relative bg-surface border border-white/[0.07] rounded-xl p-5 hover:border-white/[0.13] hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      <div class="mb-3">
+        <h3 class="font-display font-semibold text-[15px] text-[#eeeef5] leading-snug mb-2">EmerG-Net: Community Detection &amp; Trend Prediction on Dynamic Scholarly Graphs</h3>
+        <span class="inline-block text-[10px] font-bold uppercase tracking-[0.08em] px-2 py-0.5 rounded pill-progress">In Progress</span>
+      </div>
+      <p class="text-[13px] text-muted leading-[1.75] mb-4 flex-1">
+        Processed the full OpenAlex S3 dump (~2 TB) to build a MeSH biomedical citation graph with PubMed abstracts. Reframed emerging-trend prediction as a <em>ranking</em> problem. Community detection via HiT-Leiden; temporal scoring via TGN. Targeting NeurIPS, KDD, or ICML.
+      </p>
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">NDCG <span class="text-green font-semibold">&gt;95%</span></span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">~2 TB dataset</span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">TGN + HiT-Leiden</span>
+      </div>
+      <a href="https://github.com/sujalbajra/Discovering-emerging-communities-in-graphs" target="_blank"
+         class="self-start text-[12px] font-semibold text-accent px-3 py-1.5 rounded-md border border-accent/30 bg-accent/10 hover:bg-accent/20 transition-colors">GitHub ↗</a>
+    </div>
+
+    <!-- Nepal Bhasa IR -->
+    <div class="reveal rd3 relative bg-surface border border-white/[0.07] rounded-xl p-5 hover:border-white/[0.13] hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      <div class="mb-3">
+        <h3 class="font-display font-semibold text-[15px] text-[#eeeef5] leading-snug mb-2">Information Retrieval for Nepal Bhasa (Newari)</h3>
+        <span class="inline-block text-[10px] font-bold uppercase tracking-[0.08em] px-2 py-0.5 rounded pill-progress">In Progress</span>
+      </div>
+      <p class="text-[13px] text-muted leading-[1.75] mb-4 flex-1">
+        Built the first standardised IR benchmark for Nepal Bhasa — 80K documents, custom Devanagari preprocessing, and 1,000 annotated query-document pairs. Evaluated mBERT, MuRIL, GTE and fine-tuned variants. Also produced a 15K-word POS-tagged corpus in CoNLL-U format.
+      </p>
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">MAP <span class="text-green font-semibold">0.83</span></span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">Recall@10 <span class="text-green font-semibold">&gt;0.89</span></span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">+46.5% vs TF-IDF</span>
+      </div>
+      <a href="https://github.com/sujalbajra/newautil" target="_blank"
+         class="self-start text-[12px] font-semibold text-accent px-3 py-1.5 rounded-md border border-accent/30 bg-accent/10 hover:bg-accent/20 transition-colors">GitHub ↗</a>
+    </div>
+
+    <!-- Nepali Lipi -->
+    <div class="reveal rd4 relative bg-surface border border-white/[0.07] rounded-xl p-5 hover:border-white/[0.13] hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      <div class="mb-3">
+        <h3 class="font-display font-semibold text-[15px] text-[#eeeef5] leading-snug mb-2">Nepali Lipi: Few-Shot OCR for Ancient Nepali Scripts</h3>
+        <span class="inline-block text-[10px] font-bold uppercase tracking-[0.08em] px-2 py-0.5 rounded pill-ready">Manuscript Ready</span>
+      </div>
+      <p class="text-[13px] text-muted leading-[1.75] mb-4 flex-1">
+        Community-sourced dataset of 8,200 images across 328 classes covering seven ancient Nepali scripts (Brahmi, Bhujimol, Lichhavi, Nandinagari, Tibetan, Kirat, Maithali). Evaluated Prototypical Networks, Laplacian-Shot, Relation Networks, SimpleShot on ResNet-12.
+      </p>
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">5-shot Acc <span class="text-green font-semibold">95.38%</span></span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">8,200 images</span>
+        <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#1c1c28] border border-white/[0.13] text-[#eeeef5]">7 scripts</span>
+      </div>
+      <a href="https://github.com/ashimst/nepali_scripts" target="_blank"
+         class="self-start text-[12px] font-semibold text-accent px-3 py-1.5 rounded-md border border-accent/30 bg-accent/10 hover:bg-accent/20 transition-colors">GitHub ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ──────────────────────── PROJECTS ──────────────────────── -->
+<section id="projects" class="py-20 border-b border-white/[0.07]">
+  <p class="reveal text-[11px] font-semibold uppercase tracking-[0.14em] text-accent mb-2">Applied Work</p>
+  <h2 class="reveal rd1 font-display font-bold text-[1.65rem] tracking-tight mb-3">Projects</h2>
+  <p class="reveal rd2 text-[14px] text-muted mb-10 max-w-xl">Applied engineering projects beyond research — shipped tools, hackathon builds, and club experiments.</p>
+
+  <div class="reveal rd2 border border-white/[0.07] rounded-xl overflow-hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07]">
+
+      <!-- row 1 col 1 -->
+      <div class="p-6 bg-surface hover:bg-s2 transition-colors relative group">
+        <span class="absolute top-4 right-4 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded bg-green/10 text-green border border-green/20">KU AI Club</span>
+        <p class="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted mb-1.5">Generative AI · Computer Vision</p>
+        <h3 class="font-display font-semibold text-[15px] mb-2">Time Wardrobe</h3>
+        <p class="text-[13px] text-muted leading-[1.7] mb-4">Diffusion pipeline using semantic segmentation to replace clothing with historically accurate attire from any chosen era. Combines segmentation masks with inpainting for photorealistic output.</p>
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex flex-wrap gap-1"><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">Stable Diffusion</span><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">Segmentation</span></div>
+          <a href="https://github.com/sujalbajra/Time-Wardrobe" target="_blank" class="text-[11px] font-semibold text-muted hover:text-accent transition-colors">GitHub ↗</a>
+        </div>
+      </div>
+
+      <!-- row 1 col 2 -->
+      <div class="p-6 bg-surface hover:bg-s2 transition-colors relative border-t border-white/[0.07] sm:border-t-0">
+        <span class="absolute top-4 right-4 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded bg-green/10 text-green border border-green/20">KU AI Club</span>
+        <p class="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted mb-1.5">Generative AI</p>
+        <h3 class="font-display font-semibold text-[15px] mb-2">Ghiblification</h3>
+        <p class="text-[13px] text-muted leading-[1.7] mb-4">Image-to-image translation pipeline that transforms real photographs into Studio Ghibli's signature art style, built on Stable Diffusion. Led as RnD Lead of KU AI Club.</p>
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex flex-wrap gap-1"><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">Stable Diffusion</span><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">img2img</span></div>
+          <a href="https://github.com/sujalbajra/Ghiblification" target="_blank" class="text-[11px] font-semibold text-muted hover:text-accent transition-colors">GitHub ↗</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="border-t border-white/[0.07] grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07]">
+
+      <!-- row 2 col 1 -->
+      <div class="p-6 bg-surface hover:bg-s2 transition-colors">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted mb-1.5">NLP · Agentic AI</p>
+        <h3 class="font-display font-semibold text-[15px] mb-2">Teacher Assistant Chatbot</h3>
+        <p class="text-[13px] text-muted leading-[1.7] mb-4">Prompt-engineered LLM chatbot for educators, built at the Chunjae Education AI Innovation Hackathon. Specialised system prompts handle curriculum planning, lesson design, and classroom Q&amp;A.</p>
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex flex-wrap gap-1"><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">LLM</span><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">Prompt Engineering</span></div>
+          <a href="https://github.com/sujalbajra/Teacher-Assistant-Chatbot" target="_blank" class="text-[11px] font-semibold text-muted hover:text-accent transition-colors">GitHub ↗</a>
+        </div>
+      </div>
+
+      <!-- row 2 col 2 -->
+      <div class="p-6 bg-surface hover:bg-s2 transition-colors border-t border-white/[0.07] sm:border-t-0">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted mb-1.5">Autonomous Systems · ML</p>
+        <h3 class="font-display font-semibold text-[15px] mb-2">Hook-N-Cook</h3>
+        <p class="text-[13px] text-muted leading-[1.7] mb-4">Goal-based web scraping agent that autonomously extracts Daraz e-commerce data and recommends laptops via K-means clustering. End-to-end pipeline from scraping to ranked, explainable recommendations.</p>
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex flex-wrap gap-1"><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">Scraping Agent</span><span class="text-[11px] px-1.5 py-0.5 rounded bg-[#1c1c28] text-[#72728a] border border-white/[0.13]">K-means</span></div>
+          <a href="https://github.com/sujalbajra/Hook-N-Cook" target="_blank" class="text-[11px] font-semibold text-muted hover:text-accent transition-colors">GitHub ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────── LEADERSHIP ──────────────────────── -->
+<section id="leadership" class="py-20">
+  <p class="reveal text-[11px] font-semibold uppercase tracking-[0.14em] text-accent mb-2">Roles &amp; Community</p>
+  <h2 class="reveal rd1 font-display font-bold text-[1.65rem] tracking-tight mb-10">Leadership</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <div class="reveal rd1 bg-surface border border-white/[0.07] rounded-xl p-6 hover:border-white/[0.13] hover:-translate-y-0.5 transition-all duration-200">
+      <p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted mb-1">KU AI Club</p>
+      <h3 class="font-display font-semibold text-[16px] mb-0.5">RnD Lead</h3>
+      <p class="text-[12px] text-muted mb-4">2025 – Present</p>
+      <p class="text-[13px] text-muted leading-[1.7]">Direct student research teams across applied AI projects. Managed end-to-end deployment of Time Wardrobe and Ghiblification. Organised and taught bootcamps in Python, data science, and machine learning for university students.</p>
+    </div>
+
+    <div class="reveal rd2 bg-surface border border-white/[0.07] rounded-xl p-6 hover:border-white/[0.13] hover:-translate-y-0.5 transition-all duration-200">
+      <p class="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted mb-1">AWS Student Builder Group at KU</p>
+      <h3 class="font-display font-semibold text-[16px] mb-0.5">Executive Member</h3>
+      <p class="text-[12px] text-muted mb-4">2026 – Present</p>
+      <p class="text-[13px] text-muted leading-[1.7]">Coordinate campus cloud workshops. Collaborate on practical AWS architecture projects covering S3 data pipelines, EC2 deployments, and cloud-native system design for student research projects.</p>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<!-- ──────────────────────── FOOTER ──────────────────────── -->
+<footer class="border-t border-white/[0.07] py-8">
+  <div class="max-w-5xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+    <span class="text-[13px] text-muted">Kathmandu University · B.Tech AI · 2027</span>
+    <div class="flex gap-5">
+      <a href="https://github.com/sujalbajra" target="_blank" class="text-[13px] text-muted hover:text-[#eeeef5] transition-colors">GitHub</a>
+      <a href="https://www.nepjol.info/index.php/jonc/article/view/89049" target="_blank" class="text-[13px] text-muted hover:text-[#eeeef5] transition-colors">Publication</a>
+      <a href="mailto:sujalbajracharya1@gmail.com" class="text-[13px] text-muted hover:text-[#eeeef5] transition-colors">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
